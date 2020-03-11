@@ -1,0 +1,302 @@
+= Resumen
+
+== Modelo de caja.....
+
+image::modelo-de-cajas.png[Modelo,250,50, role = "right"]
+
+Cada elemento que encontramos dentro de un documento HTML se encuentra contenido en una caja rectangular, la cual cuenta con una serie de propiedades que afectaran el cómo se muestran los elementos.
+
+Al trabajar con un modelo de caja, debemos tener en cuenta que existen dos propiedades principales para definirla, **height** y **width**.
+
+Adicionalmente a estas, tenemos el **Margin**, **Padding** y **Border** que nos brindaran mayor control al momento de organizar los elementos.
+
+=== Las partes que componen a una caja son las siguientes:
+
+. Contenido (content): Se trata del contenido HTML del elemento (las palabras de un párrafo, una imagen, el texto de una lista de elementos, etc.)
+. Relleno (padding): Espacio libre opcional existente entre el contenido y el borde.
+. Borde (border): Línea que encierra completamente el contenido y su relleno.
+. Margen (margin): Separación opcional existente entre la caja y el resto de cajas adyacentes.
+
+
+- outline: Un contorno es una línea que se dibuja alrededor de los elementos, FUERA de los bordes, para que el elemento "se destaque". El contorno difiere de los bordes, a diferencia del borde, el contorno se dibuja fuera del borde del elemento y puede superponerse a otro contenido. Además, el contorno NO es parte de las dimensiones del elemento; El ancho y la altura total del elemento no se ven afectados por el ancho del contorno.
+
+Entonces para saber el ancho real de nuestra caja debemos sumar lo siguiente.
+
+image::mojo.png[Modelo de cajas]
+
+Ancho de la caja
+
+*margin-left + border-left + padding-left + width + padding-right + border-right + margin-right*
+
+De igual manera con el alto de la caja.
+
+*margin-top + border-top + padding-top + height + padding-bottom + border-bottom + margin-bottom*
+
+Lo que finalmente nos quedaría es:
+
+*Width*: 260px = 10px + 10px + 10px + 200px + 10px + 10px + 10px
+
+*Height*: 160px = 10px + 10px + 10px + 100px + 10px + 10px + 10px
+
+
+=== **NOTA:** 
+El navegador por defecto agrega un margin y padding a los elementos para mejorar su claridad y legibilidad
+
+
+El margin y el padding son completamente transparentes y no se le puede aplicar valores de color.
+
+
+== Explicacion de las propiedades display
+- Display: none
+Es la forma más simple que presenta esta propiedad, en la que se indica al elemento que no genere ninguna caja, con lo que el elemento simplemente desaparece. 
+1. Como consecuencia de ello, el elemento deja de ocupar un espacio en la presentación del documento, por lo que los elementos adyacentes simplemente ignoran su presencia y ocupan su espacio.
+
+- Display block: 
+
+image::block.jpg[Bloque,800,800]
+
+Este comportamiento quiere decir que:
+
+1.  El elemento no permitirá la ubicación de elementos adyacentes.
+2. En caso de que sus dimensiones no sean determinadas, ocupará todo el ancho disponible dentro del elemento contenedor, y tendrá una altura que será determinada por el contenido.
+3. Cuando se determina el ancho, el elemento ocupará solo la extensión determinada, pero sin permitir la ubicación de elementos adyacentes, aún cuando haya espacio suficiente para que se ubique en él otro elemento.
+
+  
+- Display inline: 
+
+image::inline.jpg[Inline]
+
+Los elementos cuya propiedad “display” tienen el valor “inline” se comportan como elementos en línea, lo que quiere decir que:
+
+1. Estos elementos permiten la ubicación de elementos adyacentes.
+2. No puede determinarse el ancho ni la altura de estos elementos, ya que como elementos en línea, las dimensiones de los mismos son determinadas por el contenido.
+
+-  Display inline-Block: 
+
+image::inb.jpg[]
+Se comportan como si se tratara de elementos de bloque, pero que permiten la presencia de elementos adyacentes, lo que es propio de los elementos en línea. Las características de estos elementos son:
+
+1. Permiten elementos adyacentes, como si se tratara de elementos en línea.
+2. Pueden determinarse sus dimensiones, como los elementos de bloque.
+3. Cuando no se determina su extensión, ocupan todo el espacio disponible, como sucede con los elementos de bloque.
+4. La posición que ocupan estos elementos, es similar a los elementos en línea, lo que quiere decir que la parte inferior del elemento se apoyará en la base de la línea.
+
+
+== box-sizing (content-box, border-box)
+
+- *Box-Sizing:*
+Es una propiedad CSS para cambiar el modelo de caja por defecto de los navegadores.
+El ancho de un elemento se altera si se le aplica un borde o un padding. Eso es porque la anchura del elemento que tu especificas con CSS, por defecto no incluye borde ni padding.
+
+- *Content-box*
+content-box es el comportamiento CSS por defecto para el tamaño de la caja (box-sizing). Si se define el ancho de un elemento en 100 pixeles, la caja del contenido del elemento tendrá 100 pixeles de ancho, y el ancho de cualquier borde o relleno ser añadirá al ancho final desplegado.
+
+- *Border-box*
+border-box le dice al navegador tomar en cuenta para cualquier valor que se especifique de borde o de relleno para el ancho o alto de un elemento. Es decir, si se define un elemento con un ancho de 100 pixeles. Esos 100 pixeles incluíran cualquier borde o relleno que se añadan, y la caja de contenido se encogerá para absorber ese ancho extra. Esto típicamente hace mucho más fácil dimensionar elementos.
+
+
+== Concepto de Flujo de Documento.
+
+image::Flujo.png[Flujo_Doc, 300,200, role = "right"] 
+Es la colocación de los elementos en el lugar que corresponda según su aparición en el código.
+
+Por ejemplo, una página que tiene un titular con H1, luego varios párrafos y alguna imagen. Pues si lo primero que aparece en el código HTML es el encabezamiento H1, pues ese encabezado aparecerá en la página también en primer lugar. Luego se colocarán los párrafos y si la imagen aparecía en el código por último, en la página también aparecerá al final. Es decir, los elementos aparecen colocados tal como estén ordenados en el código
+
+== Tipos de posicionamiento
+- static
+Corresponde al posicionamiento normal o estático. Si se utiliza este valor, se ignoran los valores de las propiedades top, right, bottom y left 
+
+- relative
+Esta propiedad se define a partir de la posición normal, o inicial, del elemento, y no lo libera del flujo de texto. Dando valores a left, top, right o bottom, el elemento se desplaza respecto a su posición inicial, pero los elementos que le siguen no cambian su comportamiento.
+Este valor se utiliza a menudo para dar un nuevo punto de referencia  a elementos descendientes con posición absoluta
+
+- absolute
+La posición absoluta libera al elemento del flujo normal del texto. Ese elemento queda entonces por encima de todos los demás elementos y no tiene ninguna influencia en la posición de los mismos dentro del diseño.  
+La posición absoluta se define mediante los valores left, top, right y bottom, los cuales se calculan respecto a los márgenes del elemento padre —siempre que el elemento padre tenga algún tipo de posición. Si no existe un elemento padre posicionado, se toma el elemento <body> como elemento padre
+
+- fixed
+Esta propiedad tiene las mismas condiciones que absolute, pero con una diferencia: el elemento permanece fijo en su posición de pantalla y no se mueve con el resto de la página.
+
+- sticky
+El elemento se posiciona de acuerdo con el flujo normal del documento y luego se desplaza en relación con su raíz de flujo y el bloque que contiene, incluidos los elementos relacionados con la tabla, en función de los valores de arriba, derecha, abajo e izquierda. El desplazamiento no afecta la posición de ningún otro elemento. 
+
+== Unidades de medida en CSS
+Las medidas en CSS se emplean, entre otras, para definir la altura, anchura y márgenes de los elementos y para establecer el tamaño de letra del texto. Todas las medidas se indican como un valor numérico entero o decimal seguido de una unidad de medida (sin ningún espacio en blanco entre el número y la unidad de medida).
+
+CSS divide las unidades de medida en dos grupos: **absolutas** y **relativas**. 
+
+- absolutas 
+Una medida indicada mediante unidades absolutas está completamente definida, ya que su valor no depende de otro valor de referencia
+
+. in
+. cm
+. mm
+. pt
+. pc
+
+-- Nota: son poco flexibles
+
+- relativas
+
+La unidades relativas, a diferencia de las absolutas, no están completamente definidas, ya que su valor siempre está referenciado respecto a otro valor. A pesar de su aparente dificultad, son las más utilizadas en el diseño web por la flexibilidad con la que se adaptan a los diferentes medios.
+
+. em, (no confundir con la etiqueta <em> de HTML) relativa respecto del tamaño de letra del elemento.
+
+. ex, relativa respecto de la altura de la letra x ("equis minúscula") del tipo y tamaño de letra del elemento.
+
+. px, (píxel) relativa respecto de la resolución de la pantalla del dispositivo en el que se visualiza la página HTML.
+
+. rem
+La unidad de medida rem es muy similar a em, con la única diferencia de que no es escalable, esto quiere decir que no depende del elemento padre, sino del elemento raíz del documento, el elemento HTML. Rem significa «Root Em«, o sea, es un em basado en la raíz.
+
+
+== Selectores Básicos
+
+|===
+
+|Selector| Significado| Descripción
+|*| Universal|Seleccionara todos los elementos de la página
+|H1| Etiqueta| Indica el nombre de una etiqueta HTML correspondiente a los elementos que se quieren seleccionar
+|#ID| Identificador| Seleccionara a un único elemento 
+|.Class| Clase| Seleccionara a los elementos que esten en esa clase
+
+|===
+
+- Relación (Espacio, >, +, ~ )
+Seleccionaran elemento basandose en su relación con otros elementos
+
+|===
+
+|div_p| Descendiente|Todos los elementos P que esten dentro de div
+|div_>_p| Descendiente directo| Todos los elementos p que sean hijos directos de div
+|div_+_p| Hermano adyacente| P hermano y este despues de div
+|div_~_p| Hermano General| Todos los elementos P que sean hermanos de div
+
+|===
+
+== PseudoSelectores 
+El conjunto de selectores se conocen como pseudoclases y pseudoelementos. Hay muchos y a menudo sirven para fines muy específicos. 
+
+- Pseudoclase:
+Una pseudoclase es un selector que marca los elementos que están en un estado específico, por ejemplo, los que son el primer elemento de su tipo, o aquellos por los que el cursor les pasa por encima. Tienden a actuar como si hubieras aplicado una clase en una parte determinada del documento y, a menudo, ayudan a reducir el exceso de clases y proporcionan un marcado más flexible y fácil de mantener.
+
+**Ejemplo 1:**
+
+[source, Asciidoc]
+----
+div {
+  border: black 5px solid;
+  margin: 10px;
+  padding: 10px;
+}
+
+div :first-child {
+  color: red;
+}
+----
+
+**Ejemplo 2:**
+
+[source, Asciidoc]
+----
+a {
+  background-color: white;
+  color: blue;
+  border: orange 3px solid;
+  outline: green 3px solid;
+}
+
+a:visited {
+  background-color: yellow;
+  color: red;
+  border-color: black;
+  outline-color: red;
+----
+
+**Ejemplo 3:**
+
+[source, Asciidoc]
+----
+p {
+  background-color: white;
+  color: black;
+}
+
+a:hover {
+  background-color: black;
+  color: white;
+}
+----
+
+**Ejemplo 4:**
+[source, Asciidoc]
+----
+p {
+  background-color: white;
+  color: black;
+}
+
+p:active {
+  background-color: black;
+  color: white;
+}
+----
+
+- PseudoElemento:
+Los pseudoelementos se comportan de manera similar. Sin embargo, actúan como si hubieras añadido un elemento HTML totalmente nuevo en el marcado, en lugar de haber aplicado una clase nueva a los elementos presentes. Los pseudoelementos empiezan con un doble signo de dos puntos ::.
+
+**Ejemplo 1:**
+[source, Asciidoc]
+----
+article p::first-line {
+    font-size: 120%;
+    font-weight: bold;
+}   
+----
+**Ejemplo 2:**
+
+[source, Asciidoc]
+----
+article p:first-child::first-line { 
+  font-size: 120%; 
+  font-weight: bold; 
+}
+----
+
+**Ejemplo 3.:**
+
+[source, Asciidoc]
+----
+.box::before {
+    content: "This should show before the other content."
+}   
+----
+
+**Ejemplo 4:**
+
+[source, Asciidoc]
+----
+.box::before {
+    content: "";
+    display: block;
+    width: 100px;
+    height: 100px;
+    background-color: rebeccapurple;
+    border: 1px solid black;
+}  
+----
+== Descripción de la cascada y sus niveles
+
+- Especificidad
+Es la manera mediante la cual los navegadores deciden qué valores de una propiedad CSS son más relevantes para un elemento y, por lo tanto, serán aplicados. La especificidad está basada en las reglas de coincidencia que están compuestas por diferentes tipos de selectores CSS.
+
+- Jerarquia de especificidad
+
+|===
+|4| Etiqueta HTML<>| 1000 pts
+|3| #ID| 100 pts
+|2| .Clases, PseusoClase, Atributo| 10 pts
+|1| P Elementos, PseudoElemento| 1 pts
+|0| * Selector Universal| 0 pts
+
+|===
