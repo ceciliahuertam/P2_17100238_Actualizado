@@ -1,0 +1,246 @@
+= Atrubutos para eventos HTML
+
+image::js.png[Bloque,100,100]
+
+== ¿Qué son?
+
+==== Existen muchísimos tipos de eventos en Javascript. Para activarlos, lo primero es elegir la etiqueta en la que ocurrirá el evento. Una vez elegida, colocaremos un atributo en dicha etiqueta para detectar si se produce el evento. Además, hay que indicar el prefijo on en el atributo del evento. Por ejemplo, si queremos detectar el evento click, el atributo HTML deberá llamarse onClick.
+
+Ejemplo:
+
+[source, HTML]
+<div>
+  <img src="patricio.jpg" alt="Patricio" onClick="alert('¡Has hecho clic!')">
+</div>
+
+==== En este sencillo ejemplo, hemos especificado una imagen que es la que estará «escuchando» el evento click. Si el usuario hace clic sobre ese elemento, o sea, sobre la imagen, el navegador dispará el evento y ejecutará la función Javascript alert(), mostrando un mensaje por pantalla: ¡Has hecho clic!
+
+=== Peroooo... ¿Qué pasa cuando queremos ser mas especificos en los eventos?
+como por ejemplo, el número de veces que hizo clic el usuario sobre la imagen (si fue un solo clic, si fue doble clic, etc...). Este dato específico lo devuelve el evento onClick a través del objeto especial event, así que continuemos con el ejemplo anterior, modificando algunas cosas:
+
+[source, HTML]
+<div>
+  <img src="gandalf.jpg" alt="Gandalf" onClick="updateCounter(event)">
+  <p>Has hecho clic a Gandalf <span id="num">0</span> veces.</p>
+</div>
+
+==== Después de la imagen, hay un párrafo de texto que contiene una frase y un fragmento <span id="num"> que contendrá el número de veces que se ha pulsado sobre la imagen. Inicialmente se encuentra establecido a 0.
+
+==== En este caso, ejecutamos una función javascript, llamada updateCounter() esta pasa por parámetro una variable especial event, que es la que tiene la información sobre el evento ocurrido, y que posteriormente utilizaremos para extraer dicha información.
+
+[source, Javascript]
+function updateCounter(e) {
+  document.querySelector('#num').textContent = e.detail
+}
+
+==== Esta función busca la etiqueta HTML que tiene un id="num", y mediante .textContent modificamos su contenido. El nuevo contenido es e.detail que no es más que un dato que se encuentra en el evento que se ha disparado. Ese dato devuelve el número de veces seguidas (contador) que el usuario pulsó sobre la imagen.
+
+==== Veamos finalmente lo que ocurriría con este ejemplo. Lo que aparece a la izquierda es cuando el usuario pulsa el botón del ratón (LButtonDown) y cuando lo suelta (LButtonUp):
+
+
+image::PatE.jpg[Bloque,250]
+*Has hecho clic en patricio estrella 50 veces*
+=== Eventos sobre el documento HTML
+==== Es posible poner a escuchar ciertos eventos sobre el documento HTML completo, estableciendo el atributo del evento en la etiqueta <body>
+
+|===
+|Tipo de evento| Atributo HTML| Descripción
+|UIEvent|	onLoad|	La página ha terminado de cargarse.
+|UIEvent|	onUnload|	La página va a cerrarse.
+|UIEvent|	onScroll|	El usuario ha hecho scroll sobre la página.
+|===
+
+
+=== Eventos sobre la carga de un recurso
+==== Sobre las etiquetas que cargan un archivo externo, como podrían ser <img> o <script>, e incluso <style> con estilos CSS en línea. Los archivos multimedia <audio> y <video> tienen sus propios eventos específicos, ya que tienen un proceso de carga especial:
+
+
+|===
+|Tipo de evento| Atributo HTML| Descripción
+|UIEvent|	onLoad|	El recurso ha terminado de cargarse en la página.
+|UIEvent|	onUnload|	El recurso ha sido eliminado de la página.
+|UIEvent|	onAbort	|El recurso ha sido cancelado y no ha terminado su carga.
+|UIEvent|	onError|	El recurso ha dado un error y no ha terminado su carga.
+|UIEvent|	onSelect|	El usuario ha seleccionado un texto de un campo de datos.
+|===
+
+
+=== Eventos de foco en elementos
+
+==== Sobre etiquetas <input>, <textarea>, <select>, <a> o cualquier otra etiqueta que pueda ser seleccionable por el usuario pulsando la tecla TAB, existen una serie de eventos para controlar cuando gana o pierde el foco un elemento:
+
+|===
+|Tipo de evento| Atributo HTML| Descripción
+|FocusEvent|	onBlur	|El elemento ha perdido el foco (foco de salida).
+|FocusEvent|onFocusout|	El elemento ha perdido el foco (y permite bubble).
+|FocusEvent	|onFocus|	El elemento ha ganado el foco (foco de entrada).
+|FocusEvent|	onFocusin|	El elemento ha ganado el foco (y permite bubble).
+|===
+
+=== Eventos de ratón
+==== Los eventos de ratón se utilizan para detectar todas aquellas acciones que el usuario realiza mediante el ratón con algún elemento de la página, como podría ser mover el ratón por encima de ellos, hacer clic, mover la rueda del ratón, etc..
+
+|===
+|Tipo de evento| Atributo HTML| Descripción
+|MouseEvent	|onClick|	El usuario ha pulsado (y soltado) el elemento.
+|MouseEvent	|onDblclick|El usuario ha hecho doble clic en el elemento.
+|MouseEvent	|onMousedown|	El usuario ha pulsado (aún sin haber soltado) el elemento.
+|MouseEvent	|onMouseup|	El usuario ha soltado el botón pulsado en un elemento.
+|MouseEvent|onMousemove	|El usuario ha movido el ratón
+|MouseEvent|onMouseenter|	El usuario ha movido el ratón dentro de un elemento.
+|MouseEvent|onMouseleave|	El usuario ha movido el ratón fuera de un elemento.
+|MouseEvent|onMouseout|	El usuario ha movido el ratón fuera de un elemento (bubbles)
+|MouseEvent|onMouseover|El usuario ha movido el ratón dentro de un elemento (bubbles)
+|WheelEvent|onWheel	|El usuario ha movido la rueda del ratón
+|===
+
+=== Eventos de entrada de datos
+
+==== Sobre elementos <input> o elementos HTML con el atributo contentEditable, y por lo tanto, elementos HTML que son editables por el usuario:
+
+
+|===
+|Tipo de evento| Atributo HTML| Descripción
+|InputEvent	|onBeforeInput|	Un elemento <input> o con atributo contentEditable a punto de cambiar.
+|InputEvent|onInput|Un elemento <input> o con atributo contentEditable ha cambiado.
+|===
+
+=== Eventos multimedia (audio o video)
+
+==== Sobre elementos multimedia como <audio> o <video>, donde se carga un recurso (MP4, WebM, MP3, OGG...) externo:
+
+|===
+|Tipo de evento| Atributo HTML| Descripción
+|MediaEvent	|onEmptied|	El audio o video se ha vacíado (recargar elemento)
+|MediaEvent	|onLoadedMetadata|	Se han precargado los metadatos del audio o video (duración, subs...)
+|MediaEvent|onLoadedData|	Se ha precargado el comienzo del audio o video.
+|MediaEvent	|onCanPlay|	El audio o video se ha precargado lo suficiente para reproducir
+|MediaEvent|	onCanPlayThrough|El audio o video se ha precargado completamente
+|MediaEvent|onPlay|	El audio o video comienza a reproducirse (tras haber sido pausado)
+|MediaEvent|onPlaying|	El audio o video comienza a reproducirse
+|MediaEvent|onPause|El audio o video ha sido pausado.
+|MediaEvent|onTimeUpdate|	El audio o video ha avanzado en su reproducción
+|MediaEvent|onEnded|El audio o video ha completado su reproducción
+|MediaEvent	|onWaiting|	El audio o video está esperando a que el buffer se complete.
+|MediaEvent|	onDurationChange|El audio o video ha cambiado su duración total (metadatos).
+|MediaEvent|onRateChange|El audio o video ha cambiado su velocidad de reproducción.
+|MediaEvent|onVolumeChange|	El audio o video ha cambiado su volumen de reproducción.
+|ProgressEvent|	onProgress|	El audio o video se está descargando.
+|ProgressEvent|	onLoadStart|	El audio o video ha comenzado a descargarse.
+|MediaEvent|onSuspend|	La precarga del audio o video ha sido suspendida (ok o pause).
+|UIEvent|	onAbort|	La precarga del audio o video ha sido abortada o reiniciada.
+|UIEvent	|onError|	Ha ocurrido un error.
+|MediaEvent|	onStalled|	El navegador intenta precargar el audio o video, pero se ha estancado.
+|MediaEvent	|onSeeking|	El navegador comenzó a buscar un momento concreto del audio/video.
+|MediaEvent|onSeeked|	El navegador terminó de buscar un momento concreto del audio/video.
+|UIEvent|	onResize|	El video ha sido redimensionado.
+|===
+
+
+Todos estos ventos y mas se pueden llamar mediante Javascript
+
+
+
+=== JAVASCRIPT
+
+
+
+
+= Clases, metodos y propiedades de javascrip
+
+
+=== Declaración de clases
+==== Para declarar una clase, se utiliza la palabra reservada class y un nombre para la clase "Rectangulo".
+
+[source, Javascript]
+class Rectangle {
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+  }
+}
+
+=== Cuerpo de la clase
+==== El contenido de una clase es la parte que se encuentra entre las llaves {}. Este es el lugar se definen los miembros de clase, como los métodos o constructores.
+
+
+=== Constructor
+==== El método constructor es un método especial para crear e inicializar un objeto creado con una clase. Solo puede haber un método especial con el nombre "constructor" en una clase. Si esta contiene mas de una ocurrencia del método constructor, se arrojará un Error SyntaxError
+
+==== Un constructor puede usar la palabra reservada super para llamar al constructor de una superclase
+
+
+=== Métodos
+==== Los objetos de JavaScript también tienen métodos: click() para los botones, open() para las ventanas y el texto puede seleccionarse gracias al método selected(). Los paréntesis indican que estamos refiriéndonos a un método, y no a una propiedad.
+
+=== Ejemplo
+
+   [source, Javascript]
+  class Poligono {
+  constructor (height, width) {
+    this.height = height;
+    this.width = width;
+  }
+  // Getter
+  get   area  ()   {
+     return this.calcArea();
+   }
+  // Método
+  calcArea () {
+    return this.height * this.width ;
+  }
+}
+const cuadrado = new Poligono (10, 10);
+console.log(cuadrado.area); // 100 
+
+=== Metodos Estaticos
+==== La palabra clave static define un método estático para una clase. Los métodos estáticos son llamados sin instanciar su clase y no pueden ser llamados mediante una instancia de clase. Los métodos estáticos son a menudo usados para crear funciones de utilidad para una aplicación.
+
+[source, javascript]
+class Punto {
+  constructor ( x , y ){
+    this.x = x;
+    this.y = y;
+  }
+  static distancia ( a , b) {
+    const dx = a.x - b.x;
+    const dy = a.y - b.y;
+    return Math.sqrt ( dx * dx + dy * dy );
+  }
+}
+const p1 = new Punto(5, 5);
+const p2 = new Punto(10, 10);
+console.log (Punto.distancia(p1, p2)); // 7.0710678118654755
+
+=== Metodos
+|===
+|Object.Create()| se usa para crear un nuevo objeto y vincularlo al prototipo de un objeto existente
+|Object.keys()| crea una matriz que contiene las claves de un objeto
+|Object.values()| crea una matriz que contiene los valores de un objeto
+|Object.entries()|crea una matriz anidada con los pares clave-valor de un objeto
+|Object.assign()| se usa para copiar valores de un objeto a otro
+|Object.freeze()| impide la modificación de propiedades y valores de un objeto, y evita que se agreguen propiedades a un objeto o que se eliminen de él.
+|Object.seal()| impide la adición de nuevas propiedades a un objeto, pero permite la modificación de propiedades existentes. Este método es similar a Object.freeze(). Actualice su consola antes de implementar el código siguiente para evitar un error
+|Object.getPrototypeOf() |se usa para obtener la propiedad interna oculta [[Prototype]] de un objeto, también accesible a través de la propiedad __proto__.
+|===
+
+
+=== Propiedades
+
+==== La propiedad (atributo del objeto)
+==== Las propiedades son variables contenidas en la clase, cada instancia del objeto tiene dichas propiedades. Las propiedades deben establecerse a la propiedad prototipo de la clase (función), para que la herencia funcione correctamente.
+==== Para trabajar con propiedades dentro de la clase se utiliza la palabra reservada this , que se refiere al objeto actual. El acceso (lectura o escritura) a una propiedad desde fuera de la clase se hace con la sintaxis: NombreDeLaInstancia.Propiedad. Es la misma sintaxis utilizada por C++, Java y algunos lenguajes más. (Desde dentro de la clase la sintaxis es this.Propiedad que se utiliza para obtener o establecer el valor de la propiedad).
+
+==== En el siguiente ejemplo definimos la propiedad primerNombre de la clase Persona y la definimos en la creación de la instancia.
+
+
+[source, Javascript]
+function Persona(primerNombre) {
+  this.primerNombre = primerNombre;
+  alert('Una instancia de Persona');
+}
+var persona1 = new Persona("Alicia");
+var persona2 = new Persona("Sebastian");
+// Muestra el primer nombre de persona1
+alert ('persona1 es ' + persona1.primerNombre); // muestra "persona1 es Alicia"
+alert ('persona2 es ' + persona2.primerNombre); // muestra "persona2 es Sebastian"
